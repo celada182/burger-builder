@@ -3,7 +3,10 @@ import classes from './Burger.css';
 import BurgerIngredient from "./BurgerIngredient/BurgerIngredient";
 
 const burger = (props) => {
-    const ingredients = adaptIngredients(props.ingredients);
+    let ingredients = adaptIngredients(props.ingredients);
+    if (ingredients.length === 0){
+        ingredients = <p>Please start adding ingredients</p>
+    }
     return (
         <div className={classes.Burger}>
             <BurgerIngredient type="bread-top"/>
@@ -20,7 +23,8 @@ function adaptIngredients(ingredients) {
                 .map((_, index) => {
                     return <BurgerIngredient key={key + index} type={key}/>
                 })
-        });
+        })
+        .reduce((arr, el) => arr.concat(el), []);
 }
 
 export default burger;
