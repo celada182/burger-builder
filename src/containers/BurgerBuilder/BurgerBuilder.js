@@ -95,7 +95,7 @@ class BurgerBuilder extends Component {
       },
       deliveryMethod: 'fastest'
     };
-    axios.post('/orders', order)
+    axios.post('/', order)
     .then(response => console.log(response))
     .then(error => console.log(error))
   };
