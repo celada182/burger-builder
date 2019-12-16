@@ -6,7 +6,8 @@ exports.create = function (req, res) {
         ingredients: req.body.ingredients,
         price: req.body.price,
         customer: req.body.customer,
-        deliveryMethod: req.body.deliveryMethod
+        deliveryMethod: req.body.deliveryMethod,
+        modification: new Date()
       }
   );
 
@@ -37,6 +38,7 @@ exports.readOne = function (req, res) {
 };
 
 exports.update = function (req, res) {
+  req.body.modification = new Date();
   Order.findByIdAndUpdate(req.params.id, {$set: req.body},
       function (err, order) {
         if (err) {

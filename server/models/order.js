@@ -2,14 +2,14 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
 const Address = new Schema({
-    street: {type: String},
-    country: {type: String}
+  street: {type: String},
+  country: {type: String}
 });
 
 const Customer = new Schema({
-    name: {type: String, required: true},
-    email: {type: String, required: true},
-    address: {type: [Address]}
+  name: {type: String, required: true},
+  email: {type: String, required: true},
+  address: {type: [Address]}
 });
 
 const Ingredients = new Schema({
@@ -20,10 +20,11 @@ const Ingredients = new Schema({
 });
 
 const Order = new Schema({
-    ingredients: {type: [Ingredients], required: true},
-    price: {type: Number, required: true},
-    customer: {type: [Customer], required: true},
-    deliveryMethod: {type: String}
+  ingredients: {type: [Ingredients], required: true},
+  price: {type: Number, required: true},
+  customer: {type: [Customer], required: true},
+  deliveryMethod: {type: String},
+  modification: {type: Date}
 });
 
 // Export the model
