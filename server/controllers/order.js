@@ -29,7 +29,7 @@ exports.read = function (req, res) {
 };
 
 exports.readOne = function (req, res) {
-  Order.findById(req.params.id, function (err, product) {
+  Order.findById(req.params.id, {'_id': 0}, function (err, product) {
     if (err) {
       return next(err);
     }
