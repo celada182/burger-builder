@@ -31,13 +31,26 @@ class BurgerBuilder extends Component {
     axios.get('ingredients')
     .then(response => {
       console.log(response);
-      this.setState({ingredients: response.data});
-      this.updatePurchaseState(response.data);
+      this.loadIngredients(response.data)
     })
     .catch(error => {
       console.log(error);
       this.setState({error: true})
     });
+  }
+
+  loadIngredients(init) {
+    let ingredients = {
+      meat: 1,
+      cheese: 1,
+      salad: 0,
+      bacon: 0
+    };
+    if (init) {
+      ingredients = init;
+    }
+    this.setState({ingredients: ingredients});
+    this.updatePurchaseState(ingredients);
   }
 
   updatePurchaseState(ingredients) {
@@ -119,7 +132,8 @@ class BurgerBuilder extends Component {
       disabledInfo[key] = disabledInfo[key] <= 0
     }
     let orderSummary = null;
-    let burger = this.state.error ? <p>Ingredients can not be loaded</p> : <Spinner/>;
+    let burger = this.state.error ? <p>Ingredients can not be loaded</p> :
+        <Spinner/>;
     if (this.state.ingredients) {
       burger = (
           <Aux>
