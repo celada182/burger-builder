@@ -31,7 +31,7 @@ class BurgerBuilder extends Component {
     axios.get('ingredients')
     .then(response => {
       console.log(response);
-      this.loadIngredients(response.data)
+      this.loadIngredients(response)
     })
     .catch(error => {
       console.log(error);
@@ -39,15 +39,15 @@ class BurgerBuilder extends Component {
     });
   }
 
-  loadIngredients(init) {
+  loadIngredients(response) {
     let ingredients = {
       meat: 1,
       cheese: 1,
       salad: 0,
       bacon: 0
     };
-    if (init) {
-      ingredients = init;
+    if (response && response.data) {
+      ingredients = response.data;
     }
     this.setState({ingredients: ingredients});
     this.updatePurchaseState(ingredients);

@@ -23,7 +23,7 @@ app.use(bodyParser.urlencoded({extended: false}));
 app.use('/orders', order_routes);
 app.use('/ingredients', ingredient_routes);
 
-const port = 8080;
+const port = 3030;
 app.listen(port, () => {
   console.log('Server is up and running on port ' + port);
 });
