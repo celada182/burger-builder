@@ -2,10 +2,16 @@
     width: 100%;
     margin: auto;
     height: 250px;
-    overflow: scroll;
+    overflow-y: scroll;
     text-align: center;
     font-weight: bold;
     font-size: 1.2rem;
+    -ms-overflow-style: none; /* IE 10+ */
+    scrollbar-width: none; /* Firefox */
+}
+
+::-webkit-scrollbar {
+    display: none; /* Chrome Safari */
 }
 
 @media (min-width: 500px) and (min-height: 400px) {
