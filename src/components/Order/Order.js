@@ -24,6 +24,6 @@ const Order = (props) => {
     <p>Price: <strong>{Number.parseFloat(props.price).toFixed(2)} €</strong>
     </p>
   </div>);
-}
+};
 
 export default Order;
