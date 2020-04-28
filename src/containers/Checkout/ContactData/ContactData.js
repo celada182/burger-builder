@@ -1,7 +1,6 @@
 import React from 'react';
 import Button from "../../../components/UI/Button/Button";
 import classes from './ContactData.css';
-import axios from '../../../axios'
 import Spinner from "../../../components/UI/Spinner/Spinner";
 import Input from "../../../components/UI/Input/Input";
 
@@ -12,31 +11,58 @@ class ContactData extends React.Component {
         id: 'name',
         type: 'input',
         placeholder: 'Name',
-        value: ''
+        value: '',
+        validation: {
+          required: true
+        },
+        valid: false,
+        touched: false
       },
       {
         id: 'street',
         type: 'input',
         placeholder: 'Street',
-        value: ''
+        value: '',
+        validation: {
+          required: true
+        },
+        valid: false,
+        touched: false
       },
       {
         id: 'zipCode',
         type: 'input',
         placeholder: 'ZIP Code',
-        value: ''
+        value: '',
+        validation: {
+          required: true,
+          minLength: 5,
+          maxLength: 5
+        },
+        valid: false,
+        touched: false
       },
       {
         id: 'country',
         type: 'input',
         placeholder: 'Country',
-        value: ''
+        value: '',
+        validation: {
+          required: true
+        },
+        valid: false,
+        touched: false
       },
       {
         id: 'email',
         type: 'email',
         placeholder: 'your-email@example.com',
-        value: ''
+        value: '',
+        validation: {
+          required: true
+        },
+        valid: false,
+        touched: false
       },
       {
         id: 'delivery',
@@ -73,10 +99,27 @@ class ContactData extends React.Component {
     .then(error => this.setState({loading: false}))*/
   };
 
+  validity(value, rules) {
+    if (rules.required && value.trim() === '') {
+      return false;
+    }
+    if (rules.minLength && value.length < rules.minLength) {
+      return false;
+    }
+    if (rules.maxLength && value.length > rules.maxLength) {
+      return false;
+    }
+    return true;
+  };
+
   inputChangedHandler = (event, index) => {
     const updatedForm = [...this.state.orderForm];
     const updatedElement = {...updatedForm[index]};
+    updatedElement.touched = true;
     updatedElement.value = event.target.value;
+    updatedElement.valid = this.validity(updatedElement.value,
+        updatedElement.validation);
+    console.log(updatedElement.valid);
     updatedForm[index] = updatedElement;
     this.setState({orderForm: updatedForm});
   };
@@ -91,6 +134,8 @@ class ContactData extends React.Component {
                      placeholder={element.placeholder}
                      value={element.value}
                      options={element.options}
+                     valid={element.valid}
+                     touched={element.touched}
                      changed={(event) =>
                          this.inputChangedHandler(event, index)}/>
           ))}
