@@ -45,7 +45,7 @@ class ContactData extends React.Component {
           {value: 'fastest', display: 'Fastest'},
           {value: 'cheapest', display: 'Cheapest'}
         ],
-        value: ''
+        value: 'fastest'
       }
     ],
     loading: false
@@ -54,36 +54,47 @@ class ContactData extends React.Component {
   orderHandler = (event) => {
     event.preventDefault();
     this.setState({loading: true});
+    const formData = {};
+    this.state.orderForm.forEach(
+        element => formData[element.id] = element.value);
     const order = {
       ingredients: this.props.ingredients,
       price: this.props.price,
-      customer: {
-        name: 'Celada',
-        address: {
-          street: 'qwreiuyiyti',
-          country: 'España'
-        },
-        email: 'test@test.com'
-      },
-      deliveryMethod: 'fastest'
+      formData: formData
     };
-    axios.post('orders', order)
+    console.log(this.state.orderForm);
+    console.log(order);
+    this.setState({loading: false})
+    /*axios.post('orders', order)
     .then(response => {
       this.setState({loading: false});
       this.props.history.push('/');
     })
-    .then(error => this.setState({loading: false}))
+    .then(error => this.setState({loading: false}))*/
+  };
+
+  inputChangedHandler = (event, index) => {
+    const updatedForm = [...this.state.orderForm];
+    const updatedElement = {...updatedForm[index]};
+    updatedElement.value = event.target.value;
+    updatedForm[index] = updatedElement;
+    this.setState({orderForm: updatedForm});
   };
 
   render() {
     let form = (
-        <form>
-          {this.state.orderForm.map(element => (
-              <Input key={element.id} name={element.id} type={element.type}
-                     placeholder={element.placeholder} value={element.value}
-              options={element.options}/>
+        <form onSubmit={this.orderHandler}>
+          {this.state.orderForm.map((element, index) => (
+              <Input key={element.id}
+                     name={element.id}
+                     type={element.type}
+                     placeholder={element.placeholder}
+                     value={element.value}
+                     options={element.options}
+                     changed={(event) =>
+                         this.inputChangedHandler(event, index)}/>
           ))}
-          <Button btnType="Success" clicked={this.orderHandler}>ORDER</Button>
+          <Button btnType="Success">ORDER</Button>
         </form>
     );
     if (this.state.loading) {
