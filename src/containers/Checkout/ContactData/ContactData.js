@@ -74,7 +74,8 @@ class ContactData extends React.Component {
         value: 'fastest'
       }
     ],
-    loading: false
+    loading: false,
+    valid: false
   };
 
   orderHandler = (event) => {
@@ -100,6 +101,9 @@ class ContactData extends React.Component {
   };
 
   validity(value, rules) {
+    if (!rules) {
+      return true;
+    }
     if (rules.required && value.trim() === '') {
       return false;
     }
@@ -119,9 +123,10 @@ class ContactData extends React.Component {
     updatedElement.value = event.target.value;
     updatedElement.valid = this.validity(updatedElement.value,
         updatedElement.validation);
-    console.log(updatedElement.valid);
     updatedForm[index] = updatedElement;
-    this.setState({orderForm: updatedForm});
+    const validForm = updatedForm.every(
+        element => element.valid || element.valid === undefined);
+    this.setState({orderForm: updatedForm, valid: validForm});
   };
 
   render() {
@@ -139,7 +144,7 @@ class ContactData extends React.Component {
                      changed={(event) =>
                          this.inputChangedHandler(event, index)}/>
           ))}
-          <Button btnType="Success">ORDER</Button>
+          <Button btnType="Success" disabled={!this.state.valid}>ORDER</Button>
         </form>
     );
     if (this.state.loading) {
